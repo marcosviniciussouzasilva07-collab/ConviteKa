@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convite Especial 💕</title>
+
+    <!-- Meta tags para preview -->
+    <meta property="og:title" content="Convite Especial para Karina 💕" />
+    <meta property="og:description" content="Um convite muito especial está esperando por você. ✨" />
+    <meta property="og:image" content="https://marcossoftwareengineering.github.io/Karina/src/img/Convite.jpeg" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="600" />
+    <meta property="og:url" content="https://marcossoftwareengineering.github.io/Karina/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://marcossoftwareengineering.github.io/Karina/src/img/Convite.jpeg" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #2b0a25 0%, #120014 70%, #050006 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Container principal - ocupa toda a tela e centraliza tudo */
+        #mainContainer {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            position: relative;
+        }
+
+        /* Botão de início - centralizado e responsivo */
+        #startBtn {
+            padding: 16px 36px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #ff3b6b, #b3001b);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 59, 107, 0.6);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.4s ease, transform 0.4s ease;
+            letter-spacing: 1px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 30;
+            min-width: 200px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Ajuste para telas muito pequenas */
+        @media (max-width: 400px) {
+            #startBtn {
+                padding: 14px 28px;
+                font-size: 0.95rem;
+                min-width: 160px;
+            }
+        }
+
+        #startBtn:hover {
+            transform: translate(-50%, -50%) scale(1.07);
+            box-shadow: 0 0 40px rgba(255, 59, 107, 0.9);
+        }
+
+        #startBtn:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        #startBtn.hidden {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+            pointer-events: none;
+        }
+
+        /* Container da imagem - centralizado */
+        #imageContainer {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            padding: 20px 0;
+        }
+
+        #imageContainer.show {
+            opacity: 1;
+        }
+
+        /* Imagem do convite - responsiva */
+        #conviteImg {
+            width: 100%;
+            height: auto;
+            max-width: 500px;
+            border-radius: 18px;
+            box-shadow: 0 0 0 6px #fff, 0 0 40px rgba(255, 59, 107, 0.7), 0 25px 60px rgba(0, 0, 0, 0.6);
+            display: block;
+        }
+
+        #caption {
+            color: #ffd9e3;
+            font-size: 1.2rem;
+            text-shadow: 0 0 12px rgba(255, 59, 107, 0.8);
+            text-align: center;
+            font-style: italic;
+            margin-top: 16px;
+            padding: 0 10px;
+        }
+
+        /* Ajuste para telas muito pequenas */
+        @media (max-width: 480px) {
+            #caption {
+                font-size: 1rem;
+            }
+        }
+
+        /* Canvas dos confetes */
+        #fxCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        /* Balões */
+        .balloon {
+            position: fixed;
+            bottom: -150px;
+            width: 60px;
+            height: 80px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.95;
+            box-shadow: inset -8px -8px 15px rgba(0, 0, 0, 0.25), inset 8px 8px 15px rgba(255, 255, 255, 0.25);
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            width: 2px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateX(-50%);
+        }
+
+        /* Ajuste de balões para mobile */
+        @media (max-width: 480px) {
+            .balloon {
+                width: 40px;
+                height: 55px;
+            }
+            .balloon::after {
+                height: 30px;
+                bottom: -30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Container principal -->
+    <div id="mainContainer">
+        <!-- Botão de início - centralizado com position absolute -->
+        <button id="startBtn">🎉 Clique aqui 🎉</button>
+
+        <!-- Container da imagem -->
+        <div id="imageContainer">
+            <img id="conviteImg" src="./src/img/convite007.jpeg" alt="Convite Especial" />
+            <div id="caption">Confirme sua presença! ✨💖</div>
+        </div>
+    </div>
+
+    <!-- Áudio -->
+    <audio id="bgMusic" src="./src/audio/ai_ai_ai.mp3.mp3" preload="auto"></audio>
+
+    <!-- Canvas dos confetes -->
+    <canvas id="fxCanvas"></canvas>
+
+    <script>
+        // ---------- ELEMENTOS ----------
+        const startBtn = document.getElementById('startBtn');
+        const imageContainer = document.getElementById('imageContainer');
+        const canvas = document.getElementById('fxCanvas');
+        const bgMusic = document.getElementById('bgMusic');
+        const ctx = canvas.getContext('2d');
+
+        // ---------- CONFIGURAÇÕES ----------
+        const colors = ['#ff3b6b', '#ffd166', '#06d6a0', '#118ab2', '#ef476f', '#ffffff', '#b3001b'];
+        let particles = [];
+        let animId = null;
+        let spawning = false;
+
+        // ---------- FUNÇÕES ----------
+        function rand(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function createParticle() {
+            const isHeart = Math.random() < 0.35;
+            return {
+                x: rand(0, canvas.width),
+                y: rand(-canvas.height, 0),
+                size: isHeart ? rand(10, 20) : rand(6, 12),
+                color: colors[Math.floor(rand(0, colors.length))],
+                speedY: rand(2, 5),
+                speedX: rand(-1.5, 1.5),
+                rotation: rand(0, 360),
+                rotationSpeed: rand(-6, 6),
+                isHeart: isHeart,
+                shape: Math.random() < 0.5 ? 'rect' : 'circle',
+                life: 0,
+                maxLife: rand(160, 260)
+            };
+        }
+
+        function drawHeart(p) {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation * Math.PI / 180);
+            ctx.fillStyle = p.color;
+            const s = p.size / 14;
+            ctx.beginPath();
+            ctx.moveTo(0, 4 * s);
+            ctx.bezierCurveTo(0, 0, -8 * s, 0, -8 * s, 5 * s);
+            ctx.bezierCurveTo(-8 * s, 9 * s, -4 * s, 11 * s, 0, 16 * s);
+            ctx.bezierCurveTo(4 * s, 11 * s, 8 * s, 9 * s, 8 * s, 5 * s);
+            ctx.bezierCurveTo(8 * s, 0, 0, 0, 0, 4 * s);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function drawParticle(p) {
+            if (p.isHeart) {
+                drawHeart(p);
+                return;
+            }
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation * Math.PI / 180);
+            ctx.fillStyle = p.color;
+            if (p.shape === 'rect') {
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+            } else {
+                ctx.beginPath();
+                ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (spawning && particles.length < 260) {
+                for (let i = 0; i < 4; i++) {
+                    particles.push(createParticle());
+                }
+            }
+
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                p.rotation += p.rotationSpeed;
+                p.life++;
+                drawParticle(p);
+            });
+
+            particles = particles.filter(p => p.life < p.maxLife && p.y < canvas.height + 50);
+
+            if (particles.length > 0 || spawning) {
+                animId = requestAnimationFrame(animateParticles);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (animId) {
+                    cancelAnimationFrame(animId);
+                    animId = null;
+                }
+            }
+        }
+
+        function spawnBalloon() {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            const hue = colors[Math.floor(rand(0, colors.length))];
+            balloon.style.background = `linear-gradient(135deg, ${hue}, #ffffff33)`;
+            const left = rand(2, 92);
+            const duration = rand(5, 8);
+            const delay = rand(0, 0.6);
+            const drift = rand(-40, 40);
+
+            balloon.style.left = left + 'vw';
+            document.body.appendChild(balloon);
+
+            let start = null;
+
+            function step(ts) {
+                if (!start) start = ts;
+                const elapsed = (ts - start) / 1000 - delay;
+                if (elapsed < 0) {
+                    requestAnimationFrame(step);
+                    return;
+                }
+                const progress = elapsed / duration;
+                if (progress >= 1.1) {
+                    balloon.remove();
+                    return;
+                }
+                const bottom = -150 + progress * (window.innerHeight + 250);
+                const sway = Math.sin(progress * Math.PI * 4) * drift;
+                balloon.style.bottom = bottom + 'px';
+                balloon.style.transform = `translateX(${sway}px) rotate(${sway/4}deg)`;
+                requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+
+        function launchBalloons(count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(spawnBalloon, i * 90);
+            }
+        }
+
+        // ---------- EVENTO DO BOTÃO ----------
+        startBtn.addEventListener('click', () => {
+            // Toca a música
+            bgMusic.play().catch(e => console.log("Áudio bloqueado:", e));
+
+            // Esconde o botão
+            startBtn.classList.add('hidden');
+
+            // Inicia os confetes e balões
+            spawning = true;
+            launchBalloons(18);
+            animateParticles();
+
+            // Mostra a imagem após 900ms
+            setTimeout(() => {
+                imageContainer.classList.add('show');
+            }, 900);
+
+            // Para de gerar novas partículas após 3.5s
+            setTimeout(() => {
+                spawning = false;
+            }, 3500);
+        });
+    </script>
+
+</body>
+</html>
